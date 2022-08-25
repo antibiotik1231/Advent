@@ -12,4 +12,5 @@ app/proguard-rules.pro
 common/proguard-rules.pro
 app/build
 common/build
+app/src/main/res/raw
 
