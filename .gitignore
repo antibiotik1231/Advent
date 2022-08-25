@@ -1,0 +1,15 @@
+.gradle
+*.iml
+build
+local.properties
+*.apk
+*.ap_
+.DS_Store
+lint-*ml
+.idea/*
+!.idea/codeStyles/
+app/proguard-rules.pro
+common/proguard-rules.pro
+app/build
+common/build
+

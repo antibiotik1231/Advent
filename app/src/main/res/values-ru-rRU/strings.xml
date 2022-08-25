@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Адвент</string>
+    <string name="correct">Правильно</string>
+    <string name="incorrect">Неправильно</string>
+    <string name="about">" О приложении"</string>
+    <string name="text_about">Текст с описанием приложения</string>
+    <string name="close">Закрыть</string>
+    <string name="notification_title">Название уведомления</string>
+</resources>

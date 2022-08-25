@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">AdventApp</string>
+    <string name="correct">Correct</string>
+    <string name="incorrect">Incorrect</string>
+    <string name="about">About</string>
+    <string name="text_about">Text About</string>
+    <string name="close">Close</string>
+    <string name="notification_title">Notification Title</string>
+    <!-- TODO: Remove or change this placeholder text -->
+</resources>

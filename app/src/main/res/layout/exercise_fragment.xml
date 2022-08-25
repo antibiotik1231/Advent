@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/exercise"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.exercise.ExerciseFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/exercise_fragment_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/semi_transparent"
+        app:navigationIcon="@drawable/baseline_chevron_left_black_24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/custom_font"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="Exercise"
+            android:textColor="@color/white"
+            android:textSize="32sp" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="25dp"
+        app:cardBackgroundColor="@color/semi_transparent"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="8dp">
+
+        <io.alterac.blurkit.BlurLayout
+            android:id="@+id/exercise_fragment_blur"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:blk_blurRadius="1"
+            app:blk_cornerRadius="5dp"
+            app:blk_fps="0">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center|top"
+                android:text="Задание"
+                android:textColor="@color/white"
+                android:textSize="21sp" />
+
+            <TextView
+                android:id="@+id/exercise_fragment_text_view"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="тут короче будет написаны задания или условия задач. Надо придумать хорошие загадки или викторину для того чтобы тут было много текста и чтобы я мог примерно посмотреть как это будет выглядеть на макете"
+                android:textColor="@color/white"
+                android:layout_marginTop="32dp"
+                android:textSize="20sp"
+                android:scrollbars="vertical"
+                android:maxHeight="350dp" />
+
+        </io.alterac.blurkit.BlurLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="25dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="8dp">
+
+        <EditText
+            android:id="@+id/exercise_fragment_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:gravity="center"
+            android:hint="Insert your answer here"
+            android:textSize="32sp"
+            android:fontFamily="@font/custom_font"/>
+
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/exercise_fragment_button_submit"
+        android:layout_width="150dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="48dp"
+        android:background="@drawable/rounded_corner"
+        android:fontFamily="@font/custom_font"
+        android:gravity="center"
+        android:text="Submit"
+        android:textSize="32sp"/>
+
+    <Button
+        android:id="@+id/exercise_fragment_button_hint"
+        android:layout_width="150dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="48dp"
+        android:background="@drawable/rounded_corner"
+        android:fontFamily="@font/custom_font"
+        android:gravity="center"
+        android:text="Hint"
+        android:textSize="32sp" />
+
+</LinearLayout>
