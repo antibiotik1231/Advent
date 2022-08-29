@@ -24,6 +24,7 @@ internal class HintDialogFragment : BottomSheetDialogFragment() {
     }
 
     private val position by argument(POSITION, 0)
+
     private val hint by argument(HINT, "")
 
     private lateinit var binding: HintDialogFragmentBinding

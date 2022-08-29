@@ -15,15 +15,13 @@ internal class StickersViewHolder(
     }
 
     private val stickersItemTitle = view.findViewById<TextView>(R.id.stickers_item_text_view)
-    private val stickersItemDesc = view.findViewById<TextView>(R.id.stickers_item_text_view_desc)
 
     fun bind(stickers: StickersModel) {
         stickersItemTitle.text = stickers.title
-        stickersItemDesc.text = stickers.desc
     }
 
     override fun onClick(view: View?) {
-        val position = adapterPosition
+        val position = absoluteAdapterPosition
         onItemClicked(position)
     }
 }

@@ -20,21 +20,21 @@ internal class MainFragment : Fragment() {
     companion object {
         private const val ARG = "ARG"
 
-        fun newInstance(number: Long) = MainFragment().apply {
+        fun newInstance(backgroundImageId: Long) = MainFragment().apply {
             arguments = Bundle().apply {
-                putLong(ARG, number)
+                putLong(ARG, backgroundImageId)
             }
         }
     }
 
-    private val number: Long by argument(ARG, 0)
-
     @Inject
     lateinit var viewModelFactory: MainViewModel.Factory
 
-    private val viewModel by viewModels { viewModelFactory.get(number) }
+    private lateinit var binding: MainFragmentBinding
 
-    lateinit var binding: MainFragmentBinding
+    private val backgroundImageId: Long by argument(ARG, 0)
+
+    private val viewModel by viewModels { viewModelFactory.get(backgroundImageId) }
 
     override fun onAttach(context: Context) {
         context.getAppComponent().inject(this)
@@ -53,15 +53,11 @@ internal class MainFragment : Fragment() {
         with(binding) {
             val date = "01-01-2022 00:00:00"
             mainFragmentCountdownView.start(countDown(date, Date()))
-            mainFragmentButtonStart.setOnClickListener { viewModel.onStartButtonClicked(number) }
-            mainFragmentButtonAbout.setOnClickListener { viewModel.onAboutButtonClicked(number) }
+            mainFragmentButtonStart.setOnClickListener { viewModel.onStartButtonClicked(backgroundImageId) }
+            mainFragmentButtonAbout.setOnClickListener { viewModel.onAboutButtonClicked(backgroundImageId) }
             mainFragmentButtonExit.setOnClickListener { viewModel.onExitButtonClicked() }
-            main.setBackgroundResource(number.toInt())
+            main.setBackgroundResource(backgroundImageId.toInt())
         }
-    }
-
-    private fun countDown(countDate: String? = "00-00-0000 00:00:00", currentDate: Date): Long {
-        return SimpleDateFormat("dd-MM-yyyy HH:mm:ss").parse(countDate).time - currentDate.time
     }
 
     override fun onStart() {
@@ -72,5 +68,9 @@ internal class MainFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         binding.mainFragmentBlur.pauseBlur()
+    }
+
+    private fun countDown(countDate: String? = "00-00-0000 00:00:00", currentDate: Date): Long {
+        return SimpleDateFormat("dd-MM-yyyy HH:mm:ss").parse(countDate).time - currentDate.time
     }
 }

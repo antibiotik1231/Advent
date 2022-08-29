@@ -25,28 +25,29 @@ internal class ExerciseFragment : Fragment() {
         private const val POSITION = "POSITION"
         private const val DIALOG = "DIALOG"
 
-        fun newInstance(number: Long, position: Int) = ExerciseFragment().apply {
+        fun newInstance(backgroundImageId: Long, position: Int) = ExerciseFragment().apply {
             arguments = Bundle().apply {
-                putLong(ARG, number)
+                putLong(ARG, backgroundImageId)
                 putInt(POSITION, position)
             }
         }
     }
 
-    private val number: Long by argument(ARG, 0)
-    private val position: Int by argument(POSITION, 0)
-
     @Inject
     lateinit var viewModelFactory: ExerciseViewModel.Factory
 
+    private lateinit var binding: ExerciseFragmentBinding
+
+    private val backgroundImageId: Long by argument(ARG, 0)
+
+    private val position: Int by argument(POSITION, 0)
+
     private val viewModel: ExerciseViewModel by viewModels {
         viewModelFactory.get(
-            number,
+            backgroundImageId,
             position
         )
     }
-
-    private lateinit var binding: ExerciseFragmentBinding
 
     override fun onAttach(context: Context) {
         context.getAppComponent().inject(this)
@@ -67,13 +68,13 @@ internal class ExerciseFragment : Fragment() {
 
             exerciseFragmentButtonSubmit.setOnClickListener {
                 viewModel.onSubmitButtonClicked(
-                    number,
+                    backgroundImageId,
                     exerciseFragmentEditText.text.toString().trim(),
                     position
                 )
             }
-            exerciseFragmentToolbar.setNavigationOnClickListener { viewModel.onBackPressed(number) }
-            exercise.setBackgroundResource(number.toInt())
+            exerciseFragmentToolbar.setNavigationOnClickListener { viewModel.onBackPressed(backgroundImageId) }
+            exercise.setBackgroundResource(backgroundImageId.toInt())
             exerciseFragmentButtonHint.setOnClickListener {
                 viewModel.onHintButtonClicked()
             }

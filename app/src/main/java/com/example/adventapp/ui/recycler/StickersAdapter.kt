@@ -1,32 +1,33 @@
 package com.example.adventapp.ui.recycler
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import com.example.adventapp.R
+import com.example.common.extensions.inflate
 
 internal class StickersAdapter(
     private val onItemClicked: (position: Int) -> Unit
-) : RecyclerView.Adapter<StickersViewHolder>() {
+) : ListAdapter<StickersModel, StickersViewHolder>(
+    object : DiffUtil.ItemCallback<StickersModel>() {
+        override fun areItemsTheSame(oldItem: StickersModel, newItem: StickersModel): Boolean {
+            return oldItem == newItem
+        }
 
-    var items = emptyList<StickersModel>()
-
-    internal fun setData(items: List<StickersModel>) {
-        this.items = items
-        notifyDataSetChanged()
+        override fun areContentsTheSame(oldItem: StickersModel, newItem: StickersModel): Boolean {
+            return oldItem.title == newItem.title
+        }
     }
+) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StickersViewHolder {
-        val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.stickers_item, parent, false)
-        return StickersViewHolder(view, onItemClicked)
+        return StickersViewHolder(
+            parent.inflate(R.layout.stickers_item),
+            onItemClicked
+        )
     }
 
     override fun onBindViewHolder(holder: StickersViewHolder, position: Int) {
-        holder.bind(items[position])
-    }
-
-    override fun getItemCount(): Int {
-        return items.size
+        holder.bind(getItem(position))
     }
 }

@@ -1,7 +1,7 @@
 package com.example.adventapp.ui.container
 
 import com.example.adventapp.Screens
-import com.example.adventapp.data.repository.GiphyRepositoryImpl
+import com.example.adventapp.domain.interactor.GiphyInteractor
 import com.example.common.extensions.onNext
 import com.example.common.mvvm.BaseViewModel
 import com.github.terrakok.cicerone.Router
@@ -13,15 +13,15 @@ import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
 internal class ContainerViewModel @AssistedInject constructor(
-    @Assisted number: Long,
+    @Assisted backgroundImageId: Long,
     @Assisted description: String,
     @Assisted position: Int,
     private val router: Router,
-    private val giphyRepositoryImpl: GiphyRepositoryImpl
+    private val giphyInteractor: GiphyInteractor
 ) : BaseViewModel<ContainerViewState>() {
 
     init {
-        giphyRepositoryImpl
+        giphyInteractor
             .getGif(tag = description)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -33,12 +33,12 @@ internal class ContainerViewModel @AssistedInject constructor(
             ).safeSubscribe()
     }
 
-    fun onTryAgainButtonPressed(number: Long, position: Int) {
-        router.backTo(Screens.ExerciseScreen(number, position))
+    fun onTryAgainButtonPressed(backgroundImageId: Long, position: Int) {
+        router.backTo(Screens.ExerciseScreen(backgroundImageId, position))
     }
 
-    fun onBackButtonPressed(number: Long) {
-        router.backTo(Screens.MainScreen(number))
+    fun onBackButtonPressed(backgroundImageId: Long) {
+        router.backTo(Screens.MainScreen(backgroundImageId))
     }
 
     fun onBackPressed() {
@@ -47,6 +47,6 @@ internal class ContainerViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun get(number: Long, description: String, position: Int): ContainerViewModel
+        fun get(backgroundImageId: Long, description: String, position: Int): ContainerViewModel
     }
 }

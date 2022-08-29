@@ -7,19 +7,18 @@ import com.github.terrakok.cicerone.Router
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import javax.inject.Inject
 
 internal class MainViewModel @AssistedInject constructor(
-    @Assisted val number: Long,
-    val router: Router
+    @Assisted val backgroundImageId: Long,
+    private val router: Router
 ): ViewModel() {
 
-    fun onStartButtonClicked(number: Long) {
-        router.navigateTo(Screens.MenuScreen(number))
+    fun onStartButtonClicked(backgroundImageId: Long) {
+        router.navigateTo(Screens.MenuScreen(backgroundImageId))
     }
 
-    fun onAboutButtonClicked(number: Long) {
-        router.navigateTo(Screens.ContainerScreen(number, Description.ABOUT.name, 0))
+    fun onAboutButtonClicked(backgroundImageId: Long) {
+        router.navigateTo(Screens.ContainerScreen(backgroundImageId, Description.ABOUT.name, 0))
     }
 
     fun onExitButtonClicked() {
@@ -28,6 +27,6 @@ internal class MainViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun get(number: Long): MainViewModel
+        fun get(backgroundImageId: Long): MainViewModel
     }
 }

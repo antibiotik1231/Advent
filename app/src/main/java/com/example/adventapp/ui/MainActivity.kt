@@ -28,7 +28,7 @@ internal class MainActivity : AppCompatActivity() {
 
     private val navigator = AppNavigator(this, R.id.main_fragment)
 
-    val backgroundImage = listOf(
+    private val backgroundImage = listOf(
         R.drawable.bg1,
         R.drawable.bg2,
         R.drawable.bg4,
@@ -38,44 +38,42 @@ internal class MainActivity : AppCompatActivity() {
         R.drawable.bg9
     )
 
+    lateinit var myIntent: Intent
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
         getAppComponent().inject(this)
         supportActionBar?.hide()
-        val number = backgroundImage[Random.nextInt(0, backgroundImage.size)].toLong()
-        if (supportFragmentManager.fragments.isEmpty()) {
-            router.newRootScreen(Screens.MainScreen(number))
-        }
 
+        val backgroundImageId = backgroundImage[Random.nextInt(0, backgroundImage.size)].toLong()
+        if (supportFragmentManager.fragments.isEmpty()) {
+            router.newRootScreen(Screens.MainScreen(backgroundImageId))
+        }
         createNotificationChannel()
 
+        myIntent = Intent(this, ForegroundSoundService::class.java)
         val buttonPlay = findViewById<Button>(R.id.main_activity_button_play)
         buttonPlay.setOnClickListener {
-            val intentStop = Intent(this, ForegroundSoundService::class.java)
-            stopService(intentStop)
-            val intentStart = Intent(this, ForegroundSoundService::class.java)
-            startService(intentStart)
+            stopService(myIntent)
+            startService(myIntent)
         }
 
         val buttonStop = findViewById<Button>(R.id.main_activity_button_stop)
         buttonStop.setOnClickListener {
-            val intentStop = Intent(this, ForegroundSoundService::class.java)
-            stopService(intentStop)
+            stopService(myIntent)
         }
     }
 
     override fun onResumeFragments() {
         super.onResumeFragments()
         navigatorHolder.setNavigator(navigator)
-        val intent = Intent(this, ForegroundSoundService::class.java)
-        startService(intent)
+        startService(myIntent)
     }
 
     override fun onPause() {
         super.onPause()
-        val intent = Intent(this, ForegroundSoundService::class.java)
-        stopService(intent)
+        stopService(myIntent)
         navigatorHolder.removeNavigator()
     }
 
@@ -86,7 +84,9 @@ internal class MainActivity : AppCompatActivity() {
                 "Channel ID",
                 NotificationManager.IMPORTANCE_DEFAULT
             )
-            getSystemService(NotificationManager::class.java).createNotificationChannel(serviceChannel)
+            getSystemService(NotificationManager::class.java).createNotificationChannel(
+                serviceChannel
+            )
         }
     }
 }

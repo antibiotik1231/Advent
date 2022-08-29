@@ -8,16 +8,19 @@ import com.github.terrakok.cicerone.androidx.FragmentScreen
 
 internal object Screens {
 
-   fun MainScreen(number: Long) = FragmentScreen(clearContainer = true) { MainFragment.newInstance(number) }
+    fun MainScreen(backgroundImageId: Long) =
+        FragmentScreen(clearContainer = true) { MainFragment.newInstance(backgroundImageId) }
 
-   fun MenuScreen(number: Long) = FragmentScreen(clearContainer = true) { MenuFragment.newInstance(number) }
+    fun MenuScreen(backgroundImageId: Long) =
+        FragmentScreen(clearContainer = true) { MenuFragment.newInstance(backgroundImageId) }
 
-   fun ExerciseScreen(number: Long, position: Int) = FragmentScreen(clearContainer = true) {
-      ExerciseFragment.newInstance(number, position)
-   }
+    fun ExerciseScreen(backgroundImageId: Long, position: Int) =
+        FragmentScreen(clearContainer = true) {
+            ExerciseFragment.newInstance(backgroundImageId, position)
+        }
 
-   fun ContainerScreen(number: Long, description: String, position: Int) =
-      FragmentScreen(clearContainer = true) {
-         ContainerFragment.newInstance(number, description, position)
-      }
+    fun ContainerScreen(backgroundImageId: Long, description: String, position: Int) =
+        FragmentScreen(clearContainer = true) {
+            ContainerFragment.newInstance(backgroundImageId, description, position)
+        }
 }

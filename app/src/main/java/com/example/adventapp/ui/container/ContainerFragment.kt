@@ -25,28 +25,28 @@ internal class ContainerFragment : Fragment() {
         private const val POSITION = "POSITION"
 
         fun newInstance(
-            number: Long,
+            backgroundImageId: Long,
             description: String,
             position: Int
         ) = ContainerFragment().apply {
             arguments = Bundle().apply {
-                putLong(ARG, number)
+                putLong(ARG, backgroundImageId)
                 putString(DESCRIPTION, description)
                 putInt(POSITION, position)
             }
         }
     }
 
-    private val number: Long by argument(ARG, 0)
-    private val description: String by argument(DESCRIPTION, "ABOUT")
-    private val position: Int by argument(POSITION, 0)
-
     @Inject
     lateinit var viewModelFactory: ContainerViewModel.Factory
 
+    private val backgroundImageId: Long by argument(ARG, 0)
+    private val description: String by argument(DESCRIPTION, "ABOUT")
+    private val position: Int by argument(POSITION, 0)
+
     private val viewModel: ContainerViewModel by viewModels {
         viewModelFactory.get(
-            number,
+            backgroundImageId,
             description,
             position
         )
@@ -85,13 +85,13 @@ internal class ContainerFragment : Fragment() {
                 }
             }
             containerFragmentButtonTryAgain.setOnClickListener {
-                viewModel.onTryAgainButtonPressed(number, position)
+                viewModel.onTryAgainButtonPressed(backgroundImageId, position)
             }
             containerFragmentButtonExit.setOnClickListener {
-                viewModel.onBackButtonPressed(number)
+                viewModel.onBackButtonPressed(backgroundImageId)
             }
             containerFragmentToolbar.setNavigationOnClickListener { viewModel.onBackPressed() }
-            container.setBackgroundResource(number.toInt())
+            container.setBackgroundResource(backgroundImageId.toInt())
         }
 
         observe(viewModel.viewState, this::handleViewState)

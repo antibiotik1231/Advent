@@ -31,13 +31,19 @@ internal class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideGiphyApi(okHttpClient: OkHttpClient): GiphyApi {
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl(BASE_URL)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideGiphyApi(retrofit: Retrofit): GiphyApi {
+        return retrofit
             .create(GiphyApi::class.java)
     }
 }

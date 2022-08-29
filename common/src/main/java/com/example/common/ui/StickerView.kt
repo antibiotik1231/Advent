@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 
+//TODO : write this as Custom View
 class StickerView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
