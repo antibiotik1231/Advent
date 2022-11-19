@@ -12,6 +12,8 @@ import com.example.adventapp.R
 import com.example.adventapp.databinding.ContainerFragmentBinding
 import com.example.adventapp.di.getAppComponent
 import com.example.adventapp.domain.entity.Description
+import com.example.adventapp.domain.entity.Mode
+import com.example.adventapp.ui.UiModel
 import com.example.common.extensions.argument
 import com.example.common.extensions.observe
 import com.example.common.extensions.viewModels
@@ -25,12 +27,12 @@ internal class ContainerFragment : Fragment() {
         private const val POSITION = "POSITION"
 
         fun newInstance(
-            backgroundImageId: Long,
+            uiModel: UiModel,
             description: String,
             position: Int
         ) = ContainerFragment().apply {
             arguments = Bundle().apply {
-                putLong(ARG, backgroundImageId)
+                putParcelable(ARG, uiModel)
                 putString(DESCRIPTION, description)
                 putInt(POSITION, position)
             }
@@ -40,13 +42,13 @@ internal class ContainerFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ContainerViewModel.Factory
 
-    private val backgroundImageId: Long by argument(ARG, 0)
+    private val uiModel by argument(ARG, UiModel.EMPTY)
     private val description: String by argument(DESCRIPTION, "ABOUT")
     private val position: Int by argument(POSITION, 0)
 
     private val viewModel: ContainerViewModel by viewModels {
         viewModelFactory.get(
-            backgroundImageId,
+            uiModel,
             description,
             position
         )
@@ -78,20 +80,25 @@ internal class ContainerFragment : Fragment() {
                     containerFragmentTextView.text = getString(R.string.incorrect)
                     containerFragmentTitle.text = getString(R.string.incorrect)
                 }
-                Description.ABOUT.name -> {
+                else -> {
                     containerFragmentTitle.text = getString(R.string.about)
-                    containerFragmentTextView.text = getString(R.string.text_about)
+                    containerFragmentTextView.text =
+                        if (uiModel.mode == Mode.DIANA) {
+                            "Это твой Адвент календарь, чтобы начиная с самых первых чисел декабря у тебя потихоньку появлялось новогоднее настроение! И пусть в этом году тебя ждет не такой Адвент, как в прошлом году, но зато в самом конце, в канун Нового года тебя ждет сюрприз! Ну что ж, начнем?"
+                        } else {
+                            ""
+                        }
                     containerFragmentButtonTryAgain.visibility = View.GONE
                 }
             }
             containerFragmentButtonTryAgain.setOnClickListener {
-                viewModel.onTryAgainButtonPressed(backgroundImageId, position)
+                viewModel.onTryAgainButtonPressed()
             }
             containerFragmentButtonExit.setOnClickListener {
-                viewModel.onBackButtonPressed(backgroundImageId)
+                viewModel.onBackButtonPressed()
             }
             containerFragmentToolbar.setNavigationOnClickListener { viewModel.onBackPressed() }
-            container.setBackgroundResource(backgroundImageId.toInt())
+            container.setBackgroundResource(uiModel.backgroundImageId)
         }
 
         observe(viewModel.viewState, this::handleViewState)

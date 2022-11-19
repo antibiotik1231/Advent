@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.adventapp.R
 import com.example.adventapp.databinding.MenuFragmentBinding
 import com.example.adventapp.di.getAppComponent
+import com.example.adventapp.ui.UiModel
 import com.example.adventapp.ui.recycler.StickersAdapter
 import com.example.adventapp.ui.recycler.StickersModel
 import com.example.common.extensions.argument
@@ -24,9 +25,9 @@ internal class MenuFragment : Fragment() {
     companion object {
         private const val ARG = "ARG"
 
-        fun newInstance(backgroundImageId: Long) = MenuFragment().apply {
+        fun newInstance(uiModel: UiModel) = MenuFragment().apply {
             arguments = Bundle().apply {
-                putLong(ARG, backgroundImageId)
+                putParcelable(ARG, uiModel)
             }
         }
     }
@@ -34,9 +35,9 @@ internal class MenuFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: MenuViewModel.Factory
 
-    private val backgroundImageId: Long by argument(ARG, 0)
+    private val uiModel by argument(ARG, UiModel.EMPTY)
 
-    private val viewModel by viewModels { viewModelFactory.get(backgroundImageId) }
+    private val viewModel by viewModels { viewModelFactory.get(uiModel) }
 
     private lateinit var binding: MenuFragmentBinding
 
@@ -73,7 +74,7 @@ internal class MenuFragment : Fragment() {
             menuFragmentRecyclerView.adapter = adapter
             adapter.submitList(viewModel.setItems(stickers))
             menuFragmentToolbar.setNavigationOnClickListener { viewModel.onBackPressed() }
-            menu.setBackgroundResource(backgroundImageId.toInt())
+            menu.setBackgroundResource(uiModel.backgroundImageId)
         }
     }
 
@@ -83,7 +84,7 @@ internal class MenuFragment : Fragment() {
             Toast.makeText(context, toasts[Random.nextInt(0, toasts.size)], Toast.LENGTH_SHORT)
                 .show()
         } else {
-            viewModel.onItemClicked(backgroundImageId, stickerTitle)
+            viewModel.onItemClicked(stickerTitle)
         }
     }
 }

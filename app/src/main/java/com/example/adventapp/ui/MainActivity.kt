@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.adventapp.R
@@ -45,10 +46,11 @@ internal class MainActivity : AppCompatActivity() {
         setContentView(R.layout.main_activity)
         getAppComponent().inject(this)
         supportActionBar?.hide()
-
-        val backgroundImageId = backgroundImage[Random.nextInt(0, backgroundImage.size)].toLong()
+        val randomIndex = Random.nextInt(0, backgroundImage.size)
+        val backgroundImageId = backgroundImage.get(randomIndex)
+        Log.e("asdasd", "${randomIndex}")
         if (supportFragmentManager.fragments.isEmpty()) {
-            router.newRootScreen(Screens.MainScreen(backgroundImageId))
+            router.newRootScreen(Screens.LandingScreen(backgroundImageId))
         }
         createNotificationChannel()
 

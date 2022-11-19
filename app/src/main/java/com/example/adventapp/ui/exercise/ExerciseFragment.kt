@@ -12,6 +12,7 @@ import com.example.adventapp.databinding.ExerciseFragmentBinding
 import com.example.common.extensions.argument
 import com.example.adventapp.di.getAppComponent
 import com.example.adventapp.ui.ShowHintDialogCommand
+import com.example.adventapp.ui.UiModel
 import com.example.common.extensions.viewModels
 import com.example.adventapp.ui.dialog.HintDialogFragment
 import com.example.common.extensions.observe
@@ -25,9 +26,9 @@ internal class ExerciseFragment : Fragment() {
         private const val POSITION = "POSITION"
         private const val DIALOG = "DIALOG"
 
-        fun newInstance(backgroundImageId: Long, position: Int) = ExerciseFragment().apply {
+        fun newInstance(uiModel: UiModel, position: Int) = ExerciseFragment().apply {
             arguments = Bundle().apply {
-                putLong(ARG, backgroundImageId)
+                putParcelable(ARG, uiModel)
                 putInt(POSITION, position)
             }
         }
@@ -38,13 +39,13 @@ internal class ExerciseFragment : Fragment() {
 
     private lateinit var binding: ExerciseFragmentBinding
 
-    private val backgroundImageId: Long by argument(ARG, 0)
+    private val uiModel by argument(ARG, UiModel.EMPTY)
 
     private val position: Int by argument(POSITION, 0)
 
     private val viewModel: ExerciseViewModel by viewModels {
         viewModelFactory.get(
-            backgroundImageId,
+            uiModel,
             position
         )
     }
@@ -67,14 +68,10 @@ internal class ExerciseFragment : Fragment() {
             exerciseFragmentTextView.movementMethod = ScrollingMovementMethod()
 
             exerciseFragmentButtonSubmit.setOnClickListener {
-                viewModel.onSubmitButtonClicked(
-                    backgroundImageId,
-                    exerciseFragmentEditText.text.toString().trim(),
-                    position
-                )
+                viewModel.onSubmitButtonClicked(exerciseFragmentEditText.text.toString().trim())
             }
-            exerciseFragmentToolbar.setNavigationOnClickListener { viewModel.onBackPressed(backgroundImageId) }
-            exercise.setBackgroundResource(backgroundImageId.toInt())
+            exerciseFragmentToolbar.setNavigationOnClickListener { viewModel.onBackPressed() }
+            exercise.setBackgroundResource(uiModel.backgroundImageId)
             exerciseFragmentButtonHint.setOnClickListener {
                 viewModel.onHintButtonClicked()
             }

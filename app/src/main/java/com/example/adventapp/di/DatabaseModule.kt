@@ -2,8 +2,11 @@ package com.example.adventapp.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.adventapp.data.dao.QuestionBobbyDao
 import com.example.adventapp.data.dao.QuestionDao
-import com.example.adventapp.data.database.AppDatabase
+import com.example.adventapp.data.dao.QuestionDianaDao
+import com.example.adventapp.data.database.AppBobbyDatabase
+import com.example.adventapp.data.database.AppDianaDatabase
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -17,13 +20,27 @@ internal class DatabaseModule(val context: Context) {
 
     @Singleton
     @Provides
-    fun provideDatabase(context: Context): AppDatabase = Room.databaseBuilder(
+    fun provideDianaDatabase(context: Context): AppDianaDatabase = Room.databaseBuilder(
         context,
-        AppDatabase::class.java,
+        AppDianaDatabase::class.java,
         APP_DATABASE_NAME
-    ).createFromAsset("database/questions.db").build()
+    ).createFromAsset("database/diana/questions.db").build()
 
     @Singleton
     @Provides
-    fun provideQuestionDao(appDatabase: AppDatabase): QuestionDao = appDatabase.questionDao()
+    fun provideBobbyDatabase(context: Context): AppBobbyDatabase = Room.databaseBuilder(
+        context,
+        AppBobbyDatabase::class.java,
+        APP_DATABASE_NAME
+    ).createFromAsset("database/bobby/questions.db").build()
+
+    @Singleton
+    @Provides
+    fun provideQuestionDianaDao(appDianaDatabase: AppDianaDatabase): QuestionDianaDao =
+        appDianaDatabase.questionDao()
+
+    @Singleton
+    @Provides
+    fun provideQuestionBobbyDao(appBobbyDatabase: AppBobbyDatabase): QuestionBobbyDao =
+        appBobbyDatabase.questionDao()
 }

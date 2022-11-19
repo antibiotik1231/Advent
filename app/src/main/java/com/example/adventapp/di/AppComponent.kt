@@ -4,6 +4,7 @@ import com.example.adventapp.ui.MainActivity
 import com.example.adventapp.ui.container.ContainerFragment
 import com.example.adventapp.ui.dialog.HintDialogFragment
 import com.example.adventapp.ui.exercise.ExerciseFragment
+import com.example.adventapp.ui.landing.LandingFragment
 import com.example.adventapp.ui.main.MainFragment
 import com.example.adventapp.ui.menu.MenuFragment
 import dagger.Component
@@ -28,4 +29,6 @@ internal interface AppComponent {
     fun inject(fragment: ExerciseFragment)
 
     fun inject(fragment: ContainerFragment)
+
+    fun inject(fragment: LandingFragment)
 }

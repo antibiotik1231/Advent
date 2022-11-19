@@ -2,6 +2,7 @@ package com.example.adventapp.ui.container
 
 import com.example.adventapp.Screens
 import com.example.adventapp.domain.interactor.GiphyInteractor
+import com.example.adventapp.ui.UiModel
 import com.example.common.extensions.onNext
 import com.example.common.mvvm.BaseViewModel
 import com.github.terrakok.cicerone.Router
@@ -13,9 +14,9 @@ import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
 internal class ContainerViewModel @AssistedInject constructor(
-    @Assisted backgroundImageId: Long,
-    @Assisted description: String,
-    @Assisted position: Int,
+    @Assisted val uiModel: UiModel,
+    @Assisted val description: String,
+    @Assisted val position: Int,
     private val router: Router,
     private val giphyInteractor: GiphyInteractor
 ) : BaseViewModel<ContainerViewState>() {
@@ -33,12 +34,12 @@ internal class ContainerViewModel @AssistedInject constructor(
             ).safeSubscribe()
     }
 
-    fun onTryAgainButtonPressed(backgroundImageId: Long, position: Int) {
-        router.backTo(Screens.ExerciseScreen(backgroundImageId, position))
+    fun onTryAgainButtonPressed() {
+        router.backTo(Screens.ExerciseScreen(uiModel, position))
     }
 
-    fun onBackButtonPressed(backgroundImageId: Long) {
-        router.backTo(Screens.MainScreen(backgroundImageId))
+    fun onBackButtonPressed() {
+        router.backTo(Screens.MainScreen(uiModel))
     }
 
     fun onBackPressed() {
@@ -47,6 +48,6 @@ internal class ContainerViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun get(backgroundImageId: Long, description: String, position: Int): ContainerViewModel
+        fun get(uiModel: UiModel, description: String, position: Int): ContainerViewModel
     }
 }

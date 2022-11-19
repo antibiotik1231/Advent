@@ -2,50 +2,41 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg9"
     android:orientation="vertical"
-    tools:context=".ui.container.ContainerFragment">
+    tools:context=".ui.landing.LandingFragment">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/container_fragment_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/semi_transparent"
-        app:navigationIcon="@drawable/baseline_chevron_left_black_24dp">
+        android:background="@color/semi_transparent">
 
         <TextView
-            android:id="@+id/container_fragment_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/custom_font"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="About"
+            android:text="My Advent Calendar"
             android:textColor="@color/white"
             android:textSize="32sp" />
 
     </androidx.appcompat.widget.Toolbar>
 
-    <ImageView
-        android:id="@+id/container_fragment_image_view"
-        android:layout_width="match_parent"
-        android:layout_height="300dp" />
-
     <androidx.cardview.widget.CardView
-        android:id="@+id/main_fragment_card_view"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="150dp"
         app:cardBackgroundColor="@color/semi_transparent"
         app:cardCornerRadius="20dp"
         app:cardElevation="100dp">
 
         <io.alterac.blurkit.BlurLayout
-            android:id="@+id/main_fragment_blur"
+            android:id="@+id/landing_fragment_blur"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:blk_blurRadius="1"
@@ -58,19 +49,19 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/container_fragment_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
-                    android:gravity="center"
-                    android:text="Это неправильный ответ!"
-                    android:textAlignment="gravity"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                    android:fontFamily="@font/custom_font"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="Who is playing?"
+                    android:textAlignment="center"
                     android:textColor="@color/white"
-                    android:textSize="21sp" />
+                    android:textSize="32sp"
+                    android:layout_marginTop="10dp"/>
 
                 <Button
-                    android:id="@+id/container_fragment_button_try_again"
+                    android:id="@+id/landing_fragment_button_diana"
                     android:layout_width="150dp"
                     android:layout_height="48dp"
                     android:layout_gravity="center_horizontal"
@@ -78,20 +69,20 @@
                     android:background="@drawable/rounded_corner"
                     android:fontFamily="@font/custom_font"
                     android:gravity="center"
-                    android:text="Try Again"
+                    android:text="Diana"
                     android:textSize="32sp" />
 
                 <Button
-                    android:id="@+id/container_fragment_button_exit"
+                    android:id="@+id/landing_fragment_button_bob"
                     android:layout_width="150dp"
                     android:layout_height="48dp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="48dp"
                     android:layout_marginBottom="48dp"
                     android:background="@drawable/rounded_corner"
                     android:fontFamily="@font/custom_font"
                     android:gravity="center"
-                    android:text="exit"
+                    android:text="Bobby"
                     android:textSize="32sp" />
 
             </LinearLayout>

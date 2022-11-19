@@ -3,22 +3,23 @@ package com.example.adventapp.ui.main
 import androidx.lifecycle.ViewModel
 import com.example.adventapp.Screens
 import com.example.adventapp.domain.entity.Description
+import com.example.adventapp.ui.UiModel
 import com.github.terrakok.cicerone.Router
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 
 internal class MainViewModel @AssistedInject constructor(
-    @Assisted val backgroundImageId: Long,
+    @Assisted val uiModel: UiModel,
     private val router: Router
-): ViewModel() {
+) : ViewModel() {
 
-    fun onStartButtonClicked(backgroundImageId: Long) {
-        router.navigateTo(Screens.MenuScreen(backgroundImageId))
+    fun onStartButtonClicked() {
+        router.navigateTo(Screens.MenuScreen(uiModel))
     }
 
-    fun onAboutButtonClicked(backgroundImageId: Long) {
-        router.navigateTo(Screens.ContainerScreen(backgroundImageId, Description.ABOUT.name, 0))
+    fun onAboutButtonClicked() {
+        router.navigateTo(Screens.ContainerScreen(uiModel, "New Year is coming", 0))
     }
 
     fun onExitButtonClicked() {
@@ -27,6 +28,6 @@ internal class MainViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun get(backgroundImageId: Long): MainViewModel
+        fun get(uiModel: UiModel): MainViewModel
     }
 }

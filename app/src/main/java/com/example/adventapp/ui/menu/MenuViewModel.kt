@@ -3,6 +3,7 @@ package com.example.adventapp.ui.menu
 import androidx.lifecycle.ViewModel
 import com.example.adventapp.Screens
 import com.example.adventapp.domain.interactor.QuestionInteractor
+import com.example.adventapp.ui.UiModel
 import com.example.adventapp.ui.recycler.StickersModel
 import com.github.terrakok.cicerone.Router
 import dagger.assisted.Assisted
@@ -10,7 +11,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 
 internal class MenuViewModel @AssistedInject constructor(
-    @Assisted val backgroundImageId: Long,
+    @Assisted val uiModel: UiModel,
     private val router: Router,
     private val questionInteractor: QuestionInteractor
 ) : ViewModel() {
@@ -23,12 +24,12 @@ internal class MenuViewModel @AssistedInject constructor(
         router.exit()
     }
 
-    fun onItemClicked(backgroundImageId: Long, position: Int) {
-        router.navigateTo(Screens.ExerciseScreen(backgroundImageId, position))
+    fun onItemClicked(position: Int) {
+        router.navigateTo(Screens.ExerciseScreen(uiModel, position))
     }
 
     @AssistedFactory
     interface Factory {
-        fun get(backgroundImageId: Long): MenuViewModel
+        fun get(uiModel: UiModel): MenuViewModel
     }
 }

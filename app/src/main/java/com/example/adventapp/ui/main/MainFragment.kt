@@ -8,8 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.adventapp.R
 import com.example.adventapp.databinding.MainFragmentBinding
-import com.example.common.extensions.argument
 import com.example.adventapp.di.getAppComponent
+import com.example.adventapp.ui.UiModel
+import com.example.common.extensions.argument
 import com.example.common.extensions.viewModels
 import java.text.SimpleDateFormat
 import java.util.*
@@ -20,9 +21,9 @@ internal class MainFragment : Fragment() {
     companion object {
         private const val ARG = "ARG"
 
-        fun newInstance(backgroundImageId: Long) = MainFragment().apply {
+        fun newInstance(uiModel: UiModel) = MainFragment().apply {
             arguments = Bundle().apply {
-                putLong(ARG, backgroundImageId)
+                putParcelable(ARG, uiModel)
             }
         }
     }
@@ -32,9 +33,9 @@ internal class MainFragment : Fragment() {
 
     private lateinit var binding: MainFragmentBinding
 
-    private val backgroundImageId: Long by argument(ARG, 0)
+    private val uiModel by argument(ARG, UiModel.EMPTY)
 
-    private val viewModel by viewModels { viewModelFactory.get(backgroundImageId) }
+    private val viewModel by viewModels { viewModelFactory.get(uiModel) }
 
     override fun onAttach(context: Context) {
         context.getAppComponent().inject(this)
@@ -51,12 +52,13 @@ internal class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = MainFragmentBinding.bind(view)
         with(binding) {
-            val date = "01-01-2022 00:00:00"
+            val date = "01-01-2023 00:00:00"
+            mainFragmentToolbarTextView.text = "${uiModel.mode.string}'s Advent"
             mainFragmentCountdownView.start(countDown(date, Date()))
-            mainFragmentButtonStart.setOnClickListener { viewModel.onStartButtonClicked(backgroundImageId) }
-            mainFragmentButtonAbout.setOnClickListener { viewModel.onAboutButtonClicked(backgroundImageId) }
+            mainFragmentButtonStart.setOnClickListener { viewModel.onStartButtonClicked() }
+            mainFragmentButtonAbout.setOnClickListener { viewModel.onAboutButtonClicked() }
             mainFragmentButtonExit.setOnClickListener { viewModel.onExitButtonClicked() }
-            main.setBackgroundResource(backgroundImageId.toInt())
+            main.setBackgroundResource(uiModel.backgroundImageId)
         }
     }
 

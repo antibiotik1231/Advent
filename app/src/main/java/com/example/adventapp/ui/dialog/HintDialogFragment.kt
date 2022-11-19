@@ -25,7 +25,7 @@ internal class HintDialogFragment : BottomSheetDialogFragment() {
 
     private val position by argument(POSITION, 0)
 
-    private val hint by argument(HINT, "")
+    private val hint by argument(HINT, "This is default hint")
 
     private lateinit var binding: HintDialogFragmentBinding
 
@@ -39,7 +39,7 @@ internal class HintDialogFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = HintDialogFragmentBinding.bind(view)
         with(binding) {
-            hintTextview.text = "asdasda"
+            hintTextview.text = hint
             hintButtonClose.setOnClickListener { dismiss() }
         }
     }

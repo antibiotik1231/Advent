@@ -4,6 +4,7 @@ import com.example.adventapp.Screens
 import com.example.adventapp.domain.entity.Question
 import com.example.adventapp.domain.interactor.QuestionInteractor
 import com.example.adventapp.ui.ShowHintDialogCommand
+import com.example.adventapp.ui.UiModel
 import com.example.common.extensions.onNext
 import com.example.common.mvvm.BaseViewModel
 import com.github.terrakok.cicerone.Router
@@ -15,8 +16,8 @@ import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
 internal class ExerciseViewModel @AssistedInject constructor(
-    @Assisted backgroundImageId: Long,
-    @Assisted position: Int,
+    @Assisted val uiModel: UiModel,
+    @Assisted val position: Int,
     private val router: Router,
     private val questionInteractor: QuestionInteractor
 ) : BaseViewModel<ExerciseViewState>() {
@@ -30,7 +31,7 @@ internal class ExerciseViewModel @AssistedInject constructor(
 
     init {
         questionInteractor
-            .getQuestion(position)
+            .getQuestion(position, uiModel.mode)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
@@ -45,25 +46,25 @@ internal class ExerciseViewModel @AssistedInject constructor(
             .safeSubscribe()
     }
 
-    fun onSubmitButtonClicked(backgroundImageId: Long, answer: String?, position: Int) {
+    fun onSubmitButtonClicked(answer: String?) {
          val tag = if (answer?.lowercase() == currentQuestion?.answer?.lowercase()) {
             CORRECT
         } else {
            INCORRECT
         }
-        router.navigateTo(Screens.ContainerScreen(backgroundImageId, tag, position))
+        router.navigateTo(Screens.ContainerScreen(uiModel, tag, position))
     }
 
     fun onHintButtonClicked() {
         _viewCommands.onNext(ShowHintDialogCommand(currentQuestion!!.hint))
     }
 
-    fun onBackPressed(backgroundImageId: Long) {
-        router.backTo(Screens.MenuScreen(backgroundImageId))
+    fun onBackPressed() {
+        router.backTo(Screens.MenuScreen(uiModel))
     }
 
     @AssistedFactory
     interface Factory {
-        fun get(backgroundImageId: Long, position: Int): ExerciseViewModel
+        fun get(uiModel: UiModel, position: Int): ExerciseViewModel
     }
 }
